@@ -1,0 +1,84 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TextField?>
+
+<?import javafx.scene.control.RadioButton?>
+<BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css">
+
+
+    <bottom>
+        <HBox  spacing="10" alignment="BOTTOM_RIGHT">
+            <padding>
+                <Insets bottom="20" right="20"/>
+            </padding>
+            <Button text="Generuj fakture" GridPane.columnIndex="1" prefWidth="120" prefHeight="20"
+            onAction="#onGenerateClicked"/>
+            <Button text="Wyjdź" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
+            onAction="#closeButtonAction"/>
+
+
+        </HBox>
+    </bottom>
+
+
+    <center>
+        <GridPane vgap="6" hgap="10">
+            <padding>
+                <Insets top="20" left="20"/>
+            </padding>
+            <Label text="Nazwa przedmiotu" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="320"/>
+            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="320"/>
+            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="320"/>
+            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="320"/>
+            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="6" prefWidth="320"/>
+
+            <Label text="Ilość" GridPane.columnIndex="2" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="60"/>
+            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="3" prefWidth="60"/>
+            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="4" prefWidth="60"/>
+            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="5" prefWidth="60"/>
+            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="6" prefWidth="60"/>
+
+
+            <Label text="Cena jednostkowa" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
+            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="90"/>
+            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="4" prefWidth="90"/>
+            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="5" prefWidth="90"/>
+            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="6" prefWidth="90"/>
+        </GridPane>
+    </center>
+
+
+    <top>
+        <GridPane vgap="6" hgap="10">
+            <padding>
+                <Insets top="20" left="20"/>
+            </padding>
+            <Label text="NIP Klienta" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="nipField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="90"/>
+
+            <Label text="Nr Faktury" GridPane.columnIndex="2" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="factureNumberField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="90"/>
+
+            <Label text="Imie i nazwisko" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="nameField" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
+
+            <Label text="Kod pocztowy i Miasto" GridPane.columnIndex="4" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="postalCodeCityField" GridPane.columnIndex="4" GridPane.rowIndex="2" prefWidth="90"/>
+
+            <Label text="Ulica" GridPane.columnIndex="5" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="streetField" GridPane.columnIndex="5" GridPane.rowIndex="2" prefWidth="120"/>
+
+            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="1" alignment="CENTER" text="Karta" fx:id="cardField"/>
+            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="2" alignment="CENTER" text="Gotówka" fx:id="moneyField"/>
+        </GridPane>
+    </top>
+
+
+</BorderPane>

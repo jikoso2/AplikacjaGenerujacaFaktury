@@ -1,0 +1,17 @@
+.root {
+    -fx-background-image: url("background.jpg");
+    -fx-background-size: cover;
+}
+
+.label{
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
+
+.text-field{
+    -fx-opacity: 0.6;
+    -fx-font-weight: bold;
+    -fx-font-size: 12;
+    -fx-stroke: black;
+    -fx-text-fill: black;
+}
