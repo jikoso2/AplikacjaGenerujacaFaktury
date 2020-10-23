@@ -7,12 +7,15 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import javafx.fxml.FXML;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static java.lang.String.valueOf;
 
 public class PDFGenerator {
     private int factureNumber;
@@ -21,14 +24,24 @@ public class PDFGenerator {
     private String buyerCity;
     private Boolean paymentMethod;
     private int NIP;
+    private PdfTableRow Row1;
+    private PdfTableRow Row2;
+    private PdfTableRow Row3;
+    private PdfTableRow Row4;
+    private PdfTableRow Row5;
 
-    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, Boolean paymentMethod, int nip) {
+    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, Boolean paymentMethod, int nip, PdfTableRow Row1, PdfTableRow Row2, PdfTableRow Row3, PdfTableRow Row4, PdfTableRow Row5) {
         this.factureNumber = factureNumber;
         this.buyer = buyer;
         this.buyerAddress = buyerAddress;
         this.buyerCity = buyerCity;
         this.paymentMethod = paymentMethod;
         this.NIP = nip;
+        this.Row1 = Row1;
+        this.Row2 = Row2;
+        this.Row3 = Row3;
+        this.Row4 = Row4;
+        this.Row5 = Row5;
     }
 
     public void finalGenerator () throws IOException, DocumentException {
@@ -77,12 +90,12 @@ public class PDFGenerator {
     }
     private void addSummaryP1(Document document) throws DocumentException, IOException {
         Paragraph firstText = new Paragraph("Do zapłaty",setFont(true));
-        Paragraph secondText = new Paragraph(roundValues(3* 133.30F)+"zł",setFont(false));
+        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (Row1.getFinalPrice()+Row2.getFinalPrice())))+"zł",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
     private void addSummaryP2(Document document) throws DocumentException, IOException {
         Paragraph firstText = new Paragraph("Słownie złotych:",setFont(true));
-        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (3* 133.30F))+"złotych",setFont(false));
+        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (Row1.getFinalPrice()+Row2.getFinalPrice()))+"złotych",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
 
@@ -111,13 +124,16 @@ public class PDFGenerator {
 
         table.setHeaderRows(1);
 
-        createCellToTable(table, "1.");
-        createCellToTable(table, "BUTY SPEEDCROSS R.7");
-        createCellToTable(table, Integer.toString(3));
-        createCellToTable(table, roundValues(3 * 133.30F / 1.23F) + " zł");
-        createCellToTable(table, roundValues((3 * 133.30F) - (3 * 133.30F / 1.23F)) + " zł");
-        createCellToTable(table, roundValues(133.30F) +" zł");
-        createCellToTable(table, roundValues(3 * 133.30F) + " zł");
+        if (Row1.isGoodItem())
+            Row1.addRow(table);
+        if (Row2.isGoodItem())
+            Row2.addRow(table);
+        if (Row3.isGoodItem())
+            Row3.addRow(table);
+        if (Row4.isGoodItem())
+            Row4.addRow(table);
+        if (Row5.isGoodItem())
+            Row5.addRow(table);
 
 
         addLastTableRow(table);
@@ -132,13 +148,17 @@ public class PDFGenerator {
 
     private void addLastTableRow(PdfPTable table) throws DocumentException, IOException {
 
+        String netto = valueOf(roundValues((float) (Row1.getNetto()+Row2.getNetto())));
+        String tax = valueOf(roundValues((float) (Row1.getTax()+Row2.getTax())));
+        String finalPrice = valueOf(roundValues((float) (Row1.getFinalPrice()+Row2.getFinalPrice())));
+
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
-        createCellToLastRow(table, roundValues(3 * 133.30F / 1.23F) + " zł");
-        createCellToLastRow(table, roundValues((3 * 133.30F) - (3 * 133.30F / 1.23F)) + " zł");
-        createCellToLastRow(table, roundValues(133.30F) +" zł");
-        createCellToLastRow(table, roundValues(3 * 133.30F) + " zł");
+        createCellToLastRow(table, netto +" zł");
+        createCellToLastRow(table, tax + " zł");
+        createCellToLastRow(table, " ");
+        createCellToLastRow(table, finalPrice + " zł");
 
     }
 

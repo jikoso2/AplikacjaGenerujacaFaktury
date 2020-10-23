@@ -31,26 +31,26 @@
                 <Insets top="20" left="20"/>
             </padding>
             <Label text="Nazwa przedmiotu" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="320"/>
-            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="320"/>
-            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="320"/>
-            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="320"/>
-            <TextField  GridPane.columnIndex="1" GridPane.rowIndex="6" prefWidth="320"/>
+            <TextField fx:id="Item1" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="320"/>
+            <TextField fx:id="Item2" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="320"/>
+            <TextField fx:id="Item3" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="320"/>
+            <TextField fx:id="Item4" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="320"/>
+            <TextField fx:id="Item5" GridPane.columnIndex="1" GridPane.rowIndex="6" prefWidth="320"/>
 
             <Label text="Ilość" GridPane.columnIndex="2" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="60"/>
-            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="3" prefWidth="60"/>
-            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="4" prefWidth="60"/>
-            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="5" prefWidth="60"/>
-            <TextField  GridPane.columnIndex="2" GridPane.rowIndex="6" prefWidth="60"/>
+            <TextField fx:id="Amount1" GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="60"/>
+            <TextField fx:id="Amount2" GridPane.columnIndex="2" GridPane.rowIndex="3" prefWidth="60"/>
+            <TextField fx:id="Amount3" GridPane.columnIndex="2" GridPane.rowIndex="4" prefWidth="60"/>
+            <TextField fx:id="Amount4" GridPane.columnIndex="2" GridPane.rowIndex="5" prefWidth="60"/>
+            <TextField fx:id="Amount5" GridPane.columnIndex="2" GridPane.rowIndex="6" prefWidth="60"/>
 
 
             <Label text="Cena jednostkowa" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
-            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="90"/>
-            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="4" prefWidth="90"/>
-            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="5" prefWidth="90"/>
-            <TextField  GridPane.columnIndex="3" GridPane.rowIndex="6" prefWidth="90"/>
+            <TextField fx:id="Price1" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
+            <TextField fx:id="Price2" GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="90"/>
+            <TextField fx:id="Price3" GridPane.columnIndex="3" GridPane.rowIndex="4" prefWidth="90"/>
+            <TextField fx:id="Price4" GridPane.columnIndex="3" GridPane.rowIndex="5" prefWidth="90"/>
+            <TextField fx:id="Price5" GridPane.columnIndex="3" GridPane.rowIndex="6" prefWidth="90"/>
         </GridPane>
     </center>
 
