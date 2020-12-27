@@ -21,7 +21,7 @@ public class PDFGenerator {
     private String buyer;
     private String buyerAddress;
     private String buyerCity;
-    private Boolean paymentMethod;
+    private PaymentType paymentMethod;
     private int NIP;
     private PdfTableRow Row1;
     private PdfTableRow Row2;
@@ -29,7 +29,7 @@ public class PDFGenerator {
     private PdfTableRow Row4;
     private PdfTableRow Row5;
 
-    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, Boolean paymentMethod, int nip, PdfTableRow[] Rows) {
+    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, PaymentType paymentMethod, int nip, PdfTableRow[] Rows) {
         this.factureNumber = factureNumber;
         this.buyer = buyer;
         this.buyerAddress = buyerAddress;
@@ -221,9 +221,9 @@ public class PDFGenerator {
     }
 
     private String paymentMethod() {
-        if(paymentMethod == null)
+        if(paymentMethod == PaymentType.both)
             return "karta/gotówka";
-        else if (!paymentMethod)
+        else if (paymentMethod == PaymentType.money)
             return "gotówka";
         else
             return "karta";
@@ -336,7 +336,7 @@ public class PDFGenerator {
     }
 
     private void addLogo(Document document) throws IOException, DocumentException {
-        Image logo = Image.getInstance("Pictures/LogoAmerSports.jpg");
+        Image logo = Image.getInstance("out/production/AplikacjaGenerujacaFaktury/sample/Pictures/LogoAmerSports.jpg");
         logo.setAlignment(Image.MIDDLE);
         scaleImage(logo);
         document.add(logo);
