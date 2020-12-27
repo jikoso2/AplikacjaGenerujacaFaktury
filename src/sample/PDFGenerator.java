@@ -7,7 +7,6 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.fxml.FXML;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,18 +29,18 @@ public class PDFGenerator {
     private PdfTableRow Row4;
     private PdfTableRow Row5;
 
-    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, Boolean paymentMethod, int nip, PdfTableRow Row1, PdfTableRow Row2, PdfTableRow Row3, PdfTableRow Row4, PdfTableRow Row5) {
+    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, Boolean paymentMethod, int nip, PdfTableRow[] Rows) {
         this.factureNumber = factureNumber;
         this.buyer = buyer;
         this.buyerAddress = buyerAddress;
         this.buyerCity = buyerCity;
         this.paymentMethod = paymentMethod;
         this.NIP = nip;
-        this.Row1 = Row1;
-        this.Row2 = Row2;
-        this.Row3 = Row3;
-        this.Row4 = Row4;
-        this.Row5 = Row5;
+        this.Row1 = Rows[0];
+        this.Row2 = Rows[1];
+        this.Row3 = Rows[2];
+        this.Row4 = Rows[3];
+        this.Row5 = Rows[4];
     }
 
     public void finalGenerator () throws IOException, DocumentException {

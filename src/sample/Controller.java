@@ -38,17 +38,30 @@ public class Controller {
     @FXML private TextField Item5;
     @FXML private TextField Price5;
 
-    
+
+    @FXML private TextField[] Amount;
+    @FXML private TextField[] Item;
+    @FXML private TextField[] Price;
+
+    public void initialize() {
+        Amount = new TextField[] {Amount1,Amount2,Amount3,Amount4,Amount5};
+        Item = new TextField[] {Item1,Item2,Item3,Item4,Item5};
+        Price = new TextField[] {Price1,Price2,Price3,Price4,Price5};
+    }
+
+
     public void onGenerateClicked() throws IOException, DocumentException {
 
-            PdfTableRow Row1 = setRow(Item1,Amount1,Price1,1);
-            PdfTableRow Row2 = setRow(Item2,Amount2,Price2,2);
-            PdfTableRow Row3 = setRow(Item3,Amount3,Price3,3);
-            PdfTableRow Row4 = setRow(Item4,Amount4,Price4,4);
-            PdfTableRow Row5 = setRow(Item4,Amount4,Price4,4);
+        initialize();
 
+        PdfTableRow Row1 = setRow(Item[0], Amount[0], Price[0],1);
+        PdfTableRow Row2 = setRow(Item[1], Amount[1], Price[1],2);
+        PdfTableRow Row3 = setRow(Item[2], Amount[2], Price[2],3);
+        PdfTableRow Row4 = setRow(Item[3], Amount[3], Price[3],4);
+        PdfTableRow Row5 = setRow(Item[4], Amount[4], Price[4],5);
+        PdfTableRow[] Rows = new PdfTableRow[] {Row1,Row2,Row3,Row4,Row5};
 
-        PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()),nameField.getText(),streetField.getText(),postalCodeCityField.getText(),payment(),Integer.parseInt(nipField.getText()), Row1,Row2,Row3,Row4,Row5);
+        PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()),nameField.getText(),streetField.getText(),postalCodeCityField.getText(),payment(),Integer.parseInt(nipField.getText()),Rows);
         generator.finalGenerator();
         System.out.println("Wygenerowano");
 
@@ -75,9 +88,10 @@ public class Controller {
 
     }
 
-    private boolean isCorrectNIPandNumber(){
+   /* private boolean isCorrectNIPandNumber(){
         return !nipField.getText().equals("") && !factureNumberField.getText().equals("") && nipField.getText().length() <= 11;
     }
+    */
 
     @FXML
     private void closeButtonAction() {
