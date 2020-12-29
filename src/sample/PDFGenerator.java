@@ -7,9 +7,15 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import utils.Dialogs;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,17 +23,13 @@ import java.util.Date;
 import static java.lang.String.valueOf;
 
 public class PDFGenerator {
-    private int factureNumber;
-    private String buyer;
-    private String buyerAddress;
-    private String buyerCity;
-    private PaymentType paymentMethod;
-    private int NIP;
-    private PdfTableRow Row1;
-    private PdfTableRow Row2;
-    private PdfTableRow Row3;
-    private PdfTableRow Row4;
-    private PdfTableRow Row5;
+    private final int factureNumber;
+    private final String buyer;
+    private final String buyerAddress;
+    private final String buyerCity;
+    private final PaymentType paymentMethod;
+    private final int NIP;
+    private final PdfTableRow[] Rows;
 
     public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, PaymentType paymentMethod, int nip, PdfTableRow[] Rows) {
         this.factureNumber = factureNumber;
@@ -36,11 +38,7 @@ public class PDFGenerator {
         this.buyerCity = buyerCity;
         this.paymentMethod = paymentMethod;
         this.NIP = nip;
-        this.Row1 = Rows[0];
-        this.Row2 = Rows[1];
-        this.Row3 = Rows[2];
-        this.Row4 = Rows[3];
-        this.Row5 = Rows[4];
+        this.Rows = Rows;
     }
 
     public void finalGenerator () throws IOException, DocumentException {
@@ -89,12 +87,12 @@ public class PDFGenerator {
     }
     private void addSummaryP1(Document document) throws DocumentException, IOException {
         Paragraph firstText = new Paragraph("Do zapłaty",setFont(true));
-        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (Row1.getFinalPrice()+Row2.getFinalPrice())))+"zł",setFont(false));
+        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice())))+"zł",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
     private void addSummaryP2(Document document) throws DocumentException, IOException {
         Paragraph firstText = new Paragraph("Słownie złotych:",setFont(true));
-        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (Row1.getFinalPrice()+Row2.getFinalPrice()))+"złotych",setFont(false));
+        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice()))+"złotych",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
 
@@ -123,16 +121,11 @@ public class PDFGenerator {
 
         table.setHeaderRows(1);
 
-        if (Row1.isGoodItem())
-            Row1.addRow(table);
-        if (Row2.isGoodItem())
-            Row2.addRow(table);
-        if (Row3.isGoodItem())
-            Row3.addRow(table);
-        if (Row4.isGoodItem())
-            Row4.addRow(table);
-        if (Row5.isGoodItem())
-            Row5.addRow(table);
+
+        for (PdfTableRow row : Rows) {
+            if (row.isGoodItem())
+                row.addRow(table);
+        }
 
 
         addLastTableRow(table);
@@ -147,9 +140,9 @@ public class PDFGenerator {
 
     private void addLastTableRow(PdfPTable table) throws DocumentException, IOException {
 
-        String netto = valueOf(roundValues((float) (Row1.getNetto()+Row2.getNetto())));
-        String tax = valueOf(roundValues((float) (Row1.getTax()+Row2.getTax())));
-        String finalPrice = valueOf(roundValues((float) (Row1.getFinalPrice()+Row2.getFinalPrice())));
+        String netto = valueOf(roundValues((float) (Rows[0].getNetto()+Rows[1].getNetto()+Rows[2].getNetto()+Rows[3].getNetto()+Rows[4].getNetto())));
+        String tax = valueOf(roundValues((float) (Rows[0].getTax()+Rows[1].getTax()+Rows[2].getTax()+Rows[3].getTax()+Rows[4].getTax())));
+        String finalPrice = valueOf(roundValues((float) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice())));
 
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
@@ -189,15 +182,6 @@ public class PDFGenerator {
         table.addCell(cell);
     }
 
-    private void createCellToTable(PdfPTable table,String name) throws IOException, DocumentException {
-        Paragraph phr = new Paragraph(name,setFont(false));
-        PdfPCell cell = new PdfPCell(phr);
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setPaddingBottom(6);
-        cell.setPaddingTop(3);
-        table.addCell(cell);
-    }
 
     private void createCellToLastRow(PdfPTable table,String name) throws IOException, DocumentException {
         Paragraph phr = new Paragraph(name,setFont(10));
@@ -336,7 +320,15 @@ public class PDFGenerator {
     }
 
     private void addLogo(Document document) throws IOException, DocumentException {
-        Image logo = Image.getInstance("out/production/AplikacjaGenerujacaFaktury/sample/Pictures/LogoAmerSports.jpg");
+        Image logo;
+        try{
+            URL treeURL = getClass().getResource("Pictures/LogoAmerSports.jpg");
+            logo = Image.getInstance(treeURL);
+        }
+        catch (FileNotFoundException e){
+            logo = Image.getInstance("out/production/AplikacjaGenerujacaFaktury/sample/Pictures/LogoAmerSports.jpg");
+        }
+
         logo.setAlignment(Image.MIDDLE);
         scaleImage(logo);
         document.add(logo);

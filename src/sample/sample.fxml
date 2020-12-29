@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 
 <?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css">
 
 
@@ -78,8 +79,13 @@
             <Label text="Ulica" GridPane.columnIndex="5" GridPane.rowIndex="1" alignment="CENTER"/>
             <TextField  fx:id="streetField" GridPane.columnIndex="5" GridPane.rowIndex="2" prefWidth="120"/>
 
-            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="1" alignment="CENTER" text="Karta" fx:id="cardField"/>
-            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="2" alignment="CENTER" text="Gotówka" fx:id="moneyField"/>
+            <fx:define>
+                <ToggleGroup fx:id="paymentType"/>
+            </fx:define>
+
+            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="1" alignment="CENTER" text="Karta" toggleGroup="$paymentType" selected="true"/>
+            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="2" alignment="CENTER" text="Gotówka" toggleGroup="$paymentType"/>
+            <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="3" alignment="CENTER" text="Karta/Gotówka" toggleGroup="$paymentType"/>
         </GridPane>
     </top>
 

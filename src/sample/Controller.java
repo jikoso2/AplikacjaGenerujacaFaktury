@@ -3,13 +3,17 @@ package sample;
 import com.itextpdf.text.DocumentException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import utils.ControllerUtils;
+import utils.Dialogs;
+
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Controller {
-
-    @FXML private RadioButton cardField,moneyField;
 
     @FXML private TextField streetField;
     @FXML private TextField nameField;
@@ -24,16 +28,21 @@ public class Controller {
     @FXML private TextField[] Amount;
     @FXML private TextField[] Item;
     @FXML private TextField[] Price;
+    @FXML private TextField[] clientInfo;
 
     @FXML
     private void closeButtonAction() {
         Platform.exit();
     }
 
+    @FXML ToggleGroup paymentType;
+
+
     public void initialize() {
         Amount = new TextField[] {Amount1,Amount2,Amount3,Amount4,Amount5};
         Item = new TextField[] {Item1,Item2,Item3,Item4,Item5};
         Price = new TextField[] {Price1,Price2,Price3,Price4,Price5};
+        clientInfo = new TextField[] {streetField,nipField,nameField,factureNumberField,postalCodeCityField};
     }
 
     public void initializeTEST() {
@@ -49,45 +58,44 @@ public class Controller {
 
 
 
-    public void onGenerateClicked() throws IOException, DocumentException {
-
+    public void onGenerateClicked() throws IOException, DocumentException, URISyntaxException {
         initialize();
+        ControllerUtils.coloringNeutralChecked(clientInfo);
+        PdfTableRow[] Rows = ischeckRows();
 
+        if (ControllerUtils.fieldChecker(clientInfo)) {
+            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), payment(), Integer.parseInt(nipField.getText()), Rows);
+            generator.finalGenerator();
+            System.out.println("Wygenerowano");
+            Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
+        }
+
+    }
+
+
+    private PdfTableRow[] ischeckRows() {
         PdfTableRow Row1 = checkRows(Item[0], Amount[0], Price[0],1);
         PdfTableRow Row2 = checkRows(Item[1], Amount[1], Price[1],2);
         PdfTableRow Row3 = checkRows(Item[2], Amount[2], Price[2],3);
         PdfTableRow Row4 = checkRows(Item[3], Amount[3], Price[3],4);
         PdfTableRow Row5 = checkRows(Item[4], Amount[4], Price[4],5);
-        PdfTableRow[] Rows = new PdfTableRow[] {Row1,Row2,Row3,Row4,Row5};
-
-        if (alertPayment()) {
-            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), payment(), Integer.parseInt(nipField.getText()), Rows);
-            generator.finalGenerator();
-            System.out.println("Wygenerowano");
-            Dialogs.alertGenerate();
-        }
-
-
-    }
-
-    private boolean alertPayment() {
-        if (payment() == PaymentType.noSelected) {
-            Dialogs.alertPaymentMethod();
-            return false;
-        } else
-            return true;
+        return new PdfTableRow[] {Row1,Row2,Row3,Row4,Row5};
     }
 
 
     private PaymentType payment(){
-        if (moneyField.isSelected() && cardField.isSelected())
-            return PaymentType.both;
-        else if (moneyField.isSelected())
-            return PaymentType.money;
-        else if (cardField.isSelected())
-            return PaymentType.card;
-        else
-            return PaymentType.noSelected;
+
+        RadioButton selected = (RadioButton) paymentType.getSelectedToggle();
+        switch(selected.getText()){
+            case "Karta":
+                return PaymentType.card;
+            case "Gotówka":
+                return PaymentType.money;
+            case "Karta/Gotówka":
+                return PaymentType.both;
+            default:
+                return PaymentType.noSelected;
+        }
     }
 
 
