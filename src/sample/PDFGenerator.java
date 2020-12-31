@@ -7,15 +7,11 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import utils.Dialogs;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,10 +24,11 @@ public class PDFGenerator {
     private final String buyerAddress;
     private final String buyerCity;
     private final PaymentType paymentMethod;
-    private final int NIP;
+    private final String NIP;
     private final PdfTableRow[] Rows;
+    private final boolean isPersonal;
 
-    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, PaymentType paymentMethod, int nip, PdfTableRow[] Rows) {
+    public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, PaymentType paymentMethod, String nip, PdfTableRow[] Rows, boolean isPersonal) {
         this.factureNumber = factureNumber;
         this.buyer = buyer;
         this.buyerAddress = buyerAddress;
@@ -39,6 +36,7 @@ public class PDFGenerator {
         this.paymentMethod = paymentMethod;
         this.NIP = nip;
         this.Rows = Rows;
+        this.isPersonal = isPersonal;
     }
 
     public void finalGenerator () throws IOException, DocumentException {
@@ -60,7 +58,10 @@ public class PDFGenerator {
         addTitle(document);
         addSeller(document);
         addBuyer(document);
+
+        if (!isPersonal)
         addNIP(document);
+
         addPaymentMethod(document);
         addItemTable(document);
         addSummary(document);
@@ -215,7 +216,7 @@ public class PDFGenerator {
 
     private void addNIP(Document document) throws DocumentException, IOException {
         Paragraph firstText = new Paragraph("NIP",setFont(true));
-        Paragraph secondText = new Paragraph(Integer.toString(NIP),setFont(false));
+        Paragraph secondText = new Paragraph(NIP,setFont(false));
         document.add(alignmentText(firstText, secondText));
 
         addEmptyParagraph(document,1);

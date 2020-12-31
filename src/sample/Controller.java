@@ -11,7 +11,6 @@ import utils.ControllerUtils;
 import utils.Dialogs;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class Controller {
 
@@ -36,13 +35,13 @@ public class Controller {
     }
 
     @FXML ToggleGroup paymentType;
-
+    @FXML public RadioButton personalFVAT;
 
     public void initialize() {
         Amount = new TextField[] {Amount1,Amount2,Amount3,Amount4,Amount5};
         Item = new TextField[] {Item1,Item2,Item3,Item4,Item5};
         Price = new TextField[] {Price1,Price2,Price3,Price4,Price5};
-        clientInfo = new TextField[] {streetField,nipField,nameField,factureNumberField,postalCodeCityField};
+        clientInfo = new TextField[] {nipField,factureNumberField,postalCodeCityField,nameField,streetField};
     }
 
     public void initializeTEST() {
@@ -58,16 +57,18 @@ public class Controller {
 
 
 
-    public void onGenerateClicked() throws IOException, DocumentException, URISyntaxException {
+    public void onGenerateClicked() throws IOException, DocumentException {
         initialize();
         ControllerUtils.coloringNeutralChecked(clientInfo);
         PdfTableRow[] Rows = ischeckRows();
 
-        if (ControllerUtils.fieldChecker(clientInfo)) {
-            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), payment(), Integer.parseInt(nipField.getText()), Rows);
+        boolean isSelected = personalFVAT.isSelected();
+        if (ControllerUtils.fieldChecker(clientInfo,isSelected)) {
+            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), payment(), nipField.getText(), Rows, isSelected);
             generator.finalGenerator();
             System.out.println("Wygenerowano");
             Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
+
         }
 
     }

@@ -19,12 +19,14 @@ public class ControllerUtils {
 
 
 
-    public static boolean fieldChecker(TextField[] clientInfo) {
+    public static boolean fieldChecker(TextField[] clientInfo,boolean isPersonal) {
         for (TextField textField : clientInfo) {
             coloring(textField);
+            if(isPersonal)
+                coloringNeutral(clientInfo[0]);
         }
 
-        if (checker(clientInfo[0]) && checker(clientInfo[1]) && checker(clientInfo[2]) && checker(clientInfo[3]) && checker(clientInfo[4]))
+        if ((checker(clientInfo[0]) || isPersonal) && checker(clientInfo[1]) && checker(clientInfo[2]) && checker(clientInfo[3]) && checker(clientInfo[4]))
             return true;
         else {
             Dialogs.userInfo("Proszę wypełnić brakujące pola", Alert.AlertType.WARNING);
