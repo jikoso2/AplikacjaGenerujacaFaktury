@@ -1,8 +1,10 @@
 package utils;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
+import sample.PaymentType;
 
 
 public class ControllerUtils {
@@ -26,10 +28,13 @@ public class ControllerUtils {
                 coloringNeutral(clientInfo[0]);
         }
 
-        if ((checker(clientInfo[0]) || isPersonal) && checker(clientInfo[1]) && checker(clientInfo[2]) && checker(clientInfo[3]) && checker(clientInfo[4]))
+        if (checker(clientInfo[0]) && (clientInfo[0].getLength() == 10 || isPersonal) && checker(clientInfo[1]) && checker(clientInfo[2]) && checker(clientInfo[3]) && checker(clientInfo[4]))
             return true;
         else {
-            Dialogs.userInfo("Proszę wypełnić brakujące pola", Alert.AlertType.WARNING);
+            if(clientInfo[0].getLength() != 10 && !isPersonal)
+                Dialogs.userInfo("Niepoprawna długość NIP (jest: "+clientInfo[0].getLength() + " oczekiwano: 10)", Alert.AlertType.WARNING);
+            else
+                Dialogs.userInfo("Proszę wypełnić brakujące pola", Alert.AlertType.WARNING);
             return false;
         }
     }
@@ -46,4 +51,18 @@ public class ControllerUtils {
     private static void coloringNeutral(TextField Field){
         Field.setStyle("-fx-control-inner-background: #" + colorTransparent.toString().substring(2));
     }
+
+    public static PaymentType payment(RadioButton selectedPayment){
+        switch(selectedPayment.getText()){
+            case "Karta":
+                return PaymentType.card;
+            case "Gotówka":
+                return PaymentType.money;
+            case "Karta/Gotówka":
+                return PaymentType.both;
+            default:
+                return PaymentType.noSelected;
+        }
+    }
+
 }

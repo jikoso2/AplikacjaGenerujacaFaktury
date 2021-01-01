@@ -18,11 +18,18 @@
             </padding>
             <Button text="TestValue" GridPane.columnIndex="3" prefWidth="120" prefHeight="20"
                     onAction="#testValue"/>
+            <Button text="Wyczyść" GridPane.columnIndex="4" prefWidth="120" prefHeight="20"
+                    onAction="#isClear"/>
 
             <Button text="Generuj fakture" GridPane.columnIndex="1" prefWidth="120" prefHeight="20"
             onAction="#onGenerateClicked"/>
             <Button text="Wyjdź" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
             onAction="#closeButtonAction"/>
+
+            <Button text="+" GridPane.columnIndex="5" prefWidth="25" prefHeight="20"
+                    onAction="#addItem"/>
+            <Button text="-" GridPane.columnIndex="6" prefWidth="25" prefHeight="20"
+                    onAction="#subItem"/>
 
 
         </HBox>
@@ -30,7 +37,7 @@
 
 
     <center>
-        <GridPane vgap="6" hgap="10">
+        <GridPane vgap="6" hgap="10" fx:id="centerGridPane">
             <padding>
                 <Insets top="20" left="20"/>
             </padding>
