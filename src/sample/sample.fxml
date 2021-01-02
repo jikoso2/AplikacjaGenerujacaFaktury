@@ -16,20 +16,17 @@
             <padding>
                 <Insets bottom="20" right="20"/>
             </padding>
-            <Button text="TestValue" GridPane.columnIndex="3" prefWidth="120" prefHeight="20"
-                    onAction="#testValue"/>
-            <Button text="Wyczyść" GridPane.columnIndex="4" prefWidth="120" prefHeight="20"
-                    onAction="#isClear"/>
 
-            <Button text="Generuj fakture" GridPane.columnIndex="1" prefWidth="120" prefHeight="20"
-            onAction="#onGenerateClicked"/>
-            <Button text="Wyjdź" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
-            onAction="#closeButtonAction"/>
-
-            <Button text="+" GridPane.columnIndex="5" prefWidth="25" prefHeight="20"
+            <Button text="+" GridPane.columnIndex="1" prefWidth="25" prefHeight="20"
                     onAction="#addItem"/>
-            <Button text="-" GridPane.columnIndex="6" prefWidth="25" prefHeight="20"
-                    onAction="#subItem"/>
+            <Button text="TestValue" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
+                    onAction="#testValue"/>
+            <Button text="Wyczyść" GridPane.columnIndex="3" prefWidth="120" prefHeight="20"
+                    onAction="#isClear"/>
+            <Button text="Generuj fakture" GridPane.columnIndex="4" prefWidth="120" prefHeight="20"
+                    onAction="#onGenerateClicked"/>
+            <Button text="Wyjdź" GridPane.columnIndex="5" prefWidth="120" prefHeight="20"
+                    onAction="#closeButtonAction"/>
 
 
         </HBox>
@@ -42,32 +39,26 @@
                 <Insets top="20" left="20"/>
             </padding>
             <Label text="Nazwa przedmiotu" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField fx:id="Item1" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="320"/>
+            <TextField fx:id="Item1" GridPane.columnIndex="1" GridPane.rowIndex="2" minWidth="320"/>
             <TextField fx:id="Item2" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="320"/>
             <TextField fx:id="Item3" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="320"/>
-            <TextField fx:id="Item4" GridPane.columnIndex="1" GridPane.rowIndex="5" prefWidth="320"/>
-            <TextField fx:id="Item5" GridPane.columnIndex="1" GridPane.rowIndex="6" prefWidth="320"/>
 
             <Label text="Ilość" GridPane.columnIndex="2" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField fx:id="Amount1" GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="60"/>
+            <TextField fx:id="Amount1" GridPane.columnIndex="2" GridPane.rowIndex="2" minWidth="60"/>
             <TextField fx:id="Amount2" GridPane.columnIndex="2" GridPane.rowIndex="3" prefWidth="60"/>
             <TextField fx:id="Amount3" GridPane.columnIndex="2" GridPane.rowIndex="4" prefWidth="60"/>
-            <TextField fx:id="Amount4" GridPane.columnIndex="2" GridPane.rowIndex="5" prefWidth="60"/>
-            <TextField fx:id="Amount5" GridPane.columnIndex="2" GridPane.rowIndex="6" prefWidth="60"/>
 
 
             <Label text="Cena jednostkowa" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField fx:id="Price1" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
+            <TextField fx:id="Price1" GridPane.columnIndex="3" GridPane.rowIndex="2" minWidth="90"/>
             <TextField fx:id="Price2" GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="90"/>
             <TextField fx:id="Price3" GridPane.columnIndex="3" GridPane.rowIndex="4" prefWidth="90"/>
-            <TextField fx:id="Price4" GridPane.columnIndex="3" GridPane.rowIndex="5" prefWidth="90"/>
-            <TextField fx:id="Price5" GridPane.columnIndex="3" GridPane.rowIndex="6" prefWidth="90"/>
         </GridPane>
     </center>
 
 
     <top>
-        <GridPane vgap="6" hgap="10">
+        <GridPane vgap="7" hgap="15">
             <padding>
                 <Insets top="20" left="20"/>
             </padding>
@@ -75,16 +66,16 @@
             <TextField  fx:id="nipField" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="90"/>
 
             <Label text="Nr Faktury" GridPane.columnIndex="2" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  fx:id="factureNumberField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="90"/>
+            <TextField  fx:id="factureNumberField" GridPane.columnIndex="2" GridPane.rowIndex="2" prefWidth="40"/>
 
-            <Label text="Imie i nazwisko" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  fx:id="nameField" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="90"/>
+            <Label text="Imie i nazwisko / Firma" GridPane.columnIndex="3" GridPane.rowIndex="1" alignment="CENTER"/>
+            <TextField  fx:id="nameField" GridPane.columnIndex="3" GridPane.rowIndex="2" prefWidth="120"/>
 
             <Label text="Kod pocztowy i Miasto" GridPane.columnIndex="4" GridPane.rowIndex="1" alignment="CENTER"/>
             <TextField  fx:id="postalCodeCityField" GridPane.columnIndex="4" GridPane.rowIndex="2" prefWidth="90"/>
 
             <Label text="Ulica" GridPane.columnIndex="5" GridPane.rowIndex="1" alignment="CENTER"/>
-            <TextField  fx:id="streetField" GridPane.columnIndex="5" GridPane.rowIndex="2" prefWidth="120"/>
+            <TextField  fx:id="streetField" GridPane.columnIndex="5" GridPane.rowIndex="2" prefWidth="90"/>
 
             <RadioButton GridPane.columnIndex="1" GridPane.rowIndex="3" alignment="CENTER" text="F-VAT Imienna" fx:id="personalFVAT"/>
 

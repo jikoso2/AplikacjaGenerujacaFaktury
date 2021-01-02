@@ -87,13 +87,19 @@ public class PDFGenerator {
         addSummaryP2(document);
     }
     private void addSummaryP1(Document document) throws DocumentException, IOException {
+        double[] sumPrices = sumPrices(Rows);
+        double sumFinalPrice = sumPrices[2];
+
         Paragraph firstText = new Paragraph("Do zapłaty",setFont(true));
-        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice())))+"zł",setFont(false));
+        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (sumFinalPrice)))+"zł",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
     private void addSummaryP2(Document document) throws DocumentException, IOException {
+        double[] sumPrices = sumPrices(Rows);
+        double sumFinalPrice = sumPrices[2];
+
         Paragraph firstText = new Paragraph("Słownie złotych:",setFont(true));
-        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice()))+"złotych",setFont(false));
+        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (sumFinalPrice))+"złotych",setFont(false));
         document.add(alignmentText(firstText, secondText));
     }
 
@@ -139,11 +145,32 @@ public class PDFGenerator {
         return myFormatter.format(value);
     }
 
+    private double[] sumPrices(PdfTableRow[] Rows){
+        double sumNetto = 0;
+        for (PdfTableRow row : Rows) {
+            sumNetto += row.getNetto();
+        }
+        double sumTax = 0;
+        for (PdfTableRow row : Rows) {
+            sumTax += row.getTax();
+        }
+        double sumFinalPrice = 0;
+        for (PdfTableRow row : Rows) {
+            sumFinalPrice += row.getFinalPrice();
+        }
+        return new double[] {sumNetto,sumTax,sumFinalPrice};
+    }
+
     private void addLastTableRow(PdfPTable table) throws DocumentException, IOException {
 
-        String netto = valueOf(roundValues((float) (Rows[0].getNetto()+Rows[1].getNetto()+Rows[2].getNetto()+Rows[3].getNetto()+Rows[4].getNetto())));
-        String tax = valueOf(roundValues((float) (Rows[0].getTax()+Rows[1].getTax()+Rows[2].getTax()+Rows[3].getTax()+Rows[4].getTax())));
-        String finalPrice = valueOf(roundValues((float) (Rows[0].getFinalPrice()+Rows[1].getFinalPrice()+Rows[2].getFinalPrice()+Rows[3].getFinalPrice()+Rows[4].getFinalPrice())));
+        double[] sumPrices = sumPrices(Rows);
+        double sumNetto = sumPrices[0];
+        double sumTax = sumPrices[1];
+        double sumFinalPrice = sumPrices[2];
+
+        String netto = valueOf(roundValues((float) sumNetto));
+        String tax = valueOf(roundValues((float) sumTax));
+        String finalPrice = valueOf(roundValues((float) sumFinalPrice));
 
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
