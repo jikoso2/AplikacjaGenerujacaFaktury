@@ -5,6 +5,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import sample.PaymentType;
+import sample.PdfTableRow;
 
 
 public class ControllerUtils {
@@ -65,4 +66,19 @@ public class ControllerUtils {
         }
     }
 
+    public static boolean checkItems(TextField[] amount, TextField[] price) {
+        try {
+            for (int i = 0; i < amount.length; i++) {
+                if(amount[i].getText().length() != 0 && price[i].getText().length() != 0) {
+                    Integer.parseInt(amount[i].getText());
+                    Integer.parseInt(price[i].getText());
+                }
+            }
+            return true;
+        }
+        catch(NumberFormatException e){
+            Dialogs.userInfo("Proszę wpisać poprawną ilość/cene", Alert.AlertType.ERROR);
+            return false;
+        }
+    }
 }

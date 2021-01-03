@@ -56,7 +56,7 @@ public class Controller {
         factureNumberField.setText("1");
         nameField.setText("Jarosław Czerniak");
         Item1.setText("Szybkie buty");
-        Price1.setText("309");
+        Price1.setText("149");
         Amount1.setText("2");
     }
 
@@ -64,9 +64,12 @@ public class Controller {
 
     public void onGenerateClicked() throws IOException, DocumentException {
         ControllerUtils.coloringNeutralChecked(clientInfo);
-        PdfTableRow[] Rows = ischeckRows();
 
-        if (ControllerUtils.fieldChecker(clientInfo,isSelected)) {
+        boolean checker = ControllerUtils.fieldChecker(clientInfo,isSelected);
+        boolean checker1 =  ControllerUtils.checkItems(Amount,Price);
+
+        if (checker && checker1) {
+            PdfTableRow[] Rows = ischeckRows();
             PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isSelected);
             generator.finalGenerator();
             Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
@@ -78,8 +81,9 @@ public class Controller {
         PdfTableRow[] Rows = new PdfTableRow[count];
         int num=1;
         for (int i = 0; i < Rows.length; i++) {
-           Rows[i]  = checkRows(Item[i], Amount[i], Price[i],num);
-            num++;
+            Rows[i]  = checkRows(Item[i], Amount[i], Price[i],num);
+            if (Rows[i].isGoodItem())
+                num++;
         }
         return Rows;
     }
@@ -90,7 +94,7 @@ public class Controller {
             return new PdfTableRow(item.getText(), amount.getText(), price.getText(),number);
         }
         else
-            return new PdfTableRow(null,"0","0",1);
+            return new PdfTableRow(null,"0","0",16);
     }
 
     public void testValue() {
@@ -137,15 +141,10 @@ public class Controller {
     public static TextField[] add_element(TextField[] myArray, TextField element, int count)
     {
         TextField[] newArray = new TextField[count+1];
-        for (int i = 0; i< myArray.length; i++) {
-            newArray[i] = myArray[i];
-        }
+        System.arraycopy(myArray, 0, newArray, 0, myArray.length);
         newArray[count] = element;
 
         return newArray;
     }
 
-    public void subItem() {
-        //centerGridPane.setVisible(false);
-    }
 }
