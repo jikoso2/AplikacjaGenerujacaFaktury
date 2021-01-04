@@ -3,14 +3,10 @@ package sample;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
+import java.awt.Desktop;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -46,7 +42,14 @@ public class PDFGenerator {
                 addFactureTitle(doc,factureNumber);
                 addContent(doc);
                 doc.close();
+                openGenerateFile();
             }
+
+    private void openGenerateFile() throws IOException {
+        Desktop desktop = Desktop.getDesktop();
+        File file = new File(fileName());
+        desktop.open(file);
+    }
 
     private void addFactureTitle(Document document,int number) {
         document.addTitle("Faktura numer: " + number);

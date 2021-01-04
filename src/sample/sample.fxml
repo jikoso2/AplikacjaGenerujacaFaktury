@@ -8,6 +8,8 @@
 
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ScrollPane?>
+
 <BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css">
 
 

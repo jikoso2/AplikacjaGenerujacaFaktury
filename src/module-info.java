@@ -3,6 +3,7 @@ module AplikacjaGenerujacaFaktury {
     requires javafx.fxml;
     requires javafx.controls;
     requires itextpdf;
+    requires java.desktop;
 
     opens sample;
 }

@@ -27,7 +27,6 @@ public class Controller {
     @FXML private TextField[] Item;
     @FXML private TextField[] Price;
     @FXML private TextField[] clientInfo;
-    @FXML boolean isSelected;
     @FXML RadioButton selectedPayment;
 
     @FXML
@@ -45,8 +44,6 @@ public class Controller {
         Price = new TextField[] {Price1,Price2,Price3};
 
         clientInfo = new TextField[] {nipField,factureNumberField,postalCodeCityField,nameField,streetField};
-        isSelected = personalFVAT.isSelected();
-        selectedPayment = (RadioButton) paymentType.getSelectedToggle();
     }
 
     public void initializeTEST() {
@@ -64,13 +61,15 @@ public class Controller {
 
     public void onGenerateClicked() throws IOException, DocumentException {
         ControllerUtils.coloringNeutralChecked(clientInfo);
+        boolean isPersonalSelected = personalFVAT.isSelected();
+        selectedPayment = (RadioButton) paymentType.getSelectedToggle();
 
-        boolean checker = ControllerUtils.fieldChecker(clientInfo,isSelected);
+        boolean checker = ControllerUtils.fieldChecker(clientInfo,isPersonalSelected);
         boolean checker1 =  ControllerUtils.checkItems(Amount,Price);
 
         if (checker && checker1) {
             PdfTableRow[] Rows = ischeckRows();
-            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isSelected);
+            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isPersonalSelected);
             generator.finalGenerator();
             Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
         }
