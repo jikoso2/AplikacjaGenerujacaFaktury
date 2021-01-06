@@ -5,7 +5,6 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import sample.PaymentType;
-import sample.PdfTableRow;
 
 
 public class ControllerUtils {

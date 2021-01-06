@@ -13,6 +13,8 @@ import java.io.IOException;
 public class Controller {
 
     public GridPane centerGridPane;
+    public ScrollPane scrollPane;
+
     @FXML private TextField streetField;
     @FXML private TextField nameField;
     @FXML private TextField postalCodeCityField;
@@ -112,10 +114,12 @@ public class Controller {
     }
 
     public void addItem() {
+
         if (count <= 16) {
 
             if (count == 3)
             initialize();
+
 
             TextField newItem = new TextField();
             newItem.setPrefWidth(320);

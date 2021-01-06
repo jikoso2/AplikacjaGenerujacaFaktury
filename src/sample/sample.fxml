@@ -8,10 +8,10 @@
 
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
+
 <?import javafx.scene.control.ScrollPane?>
 
 <BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css">
-
 
     <bottom>
         <HBox  spacing="10" alignment="BOTTOM_RIGHT">
@@ -36,7 +36,8 @@
 
 
     <center>
-        <GridPane vgap="6" hgap="10" fx:id="centerGridPane">
+        <ScrollPane fx:id="scrollPane" stylesheets="@styles.css" >
+        <GridPane vgap="6" hgap="10" fx:id="centerGridPane" >
             <padding>
                 <Insets top="20" left="20"/>
             </padding>
@@ -56,6 +57,7 @@
             <TextField fx:id="Price2" GridPane.columnIndex="3" GridPane.rowIndex="3" prefWidth="90"/>
             <TextField fx:id="Price3" GridPane.columnIndex="3" GridPane.rowIndex="4" prefWidth="90"/>
         </GridPane>
+        </ScrollPane>
     </center>
 
 
@@ -89,8 +91,8 @@
             <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="1" alignment="CENTER" text="Karta" toggleGroup="$paymentType" selected="true"/>
             <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="2" alignment="CENTER" text="Gotówka" toggleGroup="$paymentType"/>
             <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="3" alignment="CENTER" text="Karta/Gotówka" toggleGroup="$paymentType"/>
+
         </GridPane>
     </top>
-
 
 </BorderPane>

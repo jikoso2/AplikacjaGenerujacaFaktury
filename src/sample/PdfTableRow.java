@@ -13,10 +13,10 @@ import java.text.DecimalFormat;
 
 public class PdfTableRow {
 
-    private String itemName;
-    private int amount;
-    private int price;
-    private int number;
+    private final String itemName;
+    private final int amount;
+    private final int price;
+    private final int number;
 
     public PdfTableRow(String itemName, String amount, String price, int number) {
         this.itemName = itemName;
@@ -36,7 +36,7 @@ public class PdfTableRow {
     }
 
     private void createCellToTable(PdfPTable table, String name) throws IOException, DocumentException {
-        Paragraph phr = new Paragraph(name,setFont(false));
+        Paragraph phr = new Paragraph(name,setFont());
         PdfPCell cell = new PdfPCell(phr);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
@@ -45,13 +45,10 @@ public class PdfTableRow {
         table.addCell(cell);
     }
 
-    private Font setFont(boolean isBold) throws IOException, DocumentException {
+    private Font setFont() throws IOException, DocumentException {
         int defaultSize = 10;
         BaseFont helvetica = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1250, BaseFont.EMBEDDED);
-        if(isBold)
-            return new Font(helvetica,defaultSize,Font.BOLD);
-        else
-            return new Font(helvetica,defaultSize);
+        return new Font(helvetica,defaultSize);
     }
 
     private String roundValues(float value){
@@ -73,9 +70,6 @@ public class PdfTableRow {
     }
 
     public boolean isGoodItem (){
-        if (price > 0 && amount > 0)
-            return true;
-        else
-            return false;
+        return price > 0 && amount > 0;
     }
 }
