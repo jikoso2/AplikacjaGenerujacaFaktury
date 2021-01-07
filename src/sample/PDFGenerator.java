@@ -11,6 +11,7 @@ import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import static java.lang.String.valueOf;
 
@@ -23,6 +24,7 @@ public class PDFGenerator {
     private final String NIP;
     private final PdfTableRow[] Rows;
     private final boolean isPersonal;
+
 
     public PDFGenerator(int factureNumber, String buyer, String buyerAddress, String buyerCity, PaymentType paymentMethod, String nip, PdfTableRow[] Rows, boolean isPersonal) {
         this.factureNumber = factureNumber;
@@ -37,17 +39,32 @@ public class PDFGenerator {
 
     public void finalGenerator () throws IOException, DocumentException {
                 var doc = new Document(PageSize.A4,25,25,25,25);
-                PdfWriter.getInstance(doc, new FileOutputStream(fileName()));
+
+        Properties defaultProperties = new Properties();
+        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
+        defaultProperties.load(in);
+
+                String finalPath;
+                try {
+                    //PdfWriter.getInstance(doc, new FileOutputStream(savePath.getPath() + "/" + fileName()));
+                    System.out.println();
+                    PdfWriter.getInstance(doc, new FileOutputStream(defaultProperties.getProperty("url") + "/" + fileName()));
+                    finalPath = defaultProperties.getProperty("url") + "/" + fileName();
+                }
+                catch(NullPointerException e){
+                    PdfWriter.getInstance(doc, new FileOutputStream(fileName()));
+                    finalPath = fileName();
+                }
                 doc.open();
                 addFactureTitle(doc,factureNumber);
                 addContent(doc);
                 doc.close();
-                openGenerateFile();
+                openGenerateFile(finalPath);
             }
 
-    private void openGenerateFile() throws IOException {
+    private void openGenerateFile(String finalPath) throws IOException {
         Desktop desktop = Desktop.getDesktop();
-        File file = new File(fileName());
+        File file = new File(finalPath);
         desktop.open(file);
     }
 

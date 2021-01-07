@@ -19,6 +19,9 @@
                 <Insets bottom="20" right="20"/>
             </padding>
 
+            <Button text="Wybierz Katalog"  prefWidth="120" prefHeight="20"
+                    onAction="#chooserPath" />
+
             <Button text="+" GridPane.columnIndex="1" prefWidth="25" prefHeight="20"
                     onAction="#addItem"/>
             <Button text="TestValue" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
@@ -29,7 +32,6 @@
                     onAction="#onGenerateClicked"/>
             <Button text="Wyjdź" GridPane.columnIndex="5" prefWidth="120" prefHeight="20"
                     onAction="#closeButtonAction"/>
-
 
         </HBox>
     </bottom>

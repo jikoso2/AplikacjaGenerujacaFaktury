@@ -5,10 +5,12 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.stage.DirectoryChooser;
 import utils.ControllerUtils;
 import utils.Dialogs;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.Properties;
 
 public class Controller {
 
@@ -31,6 +33,7 @@ public class Controller {
     @FXML private TextField[] clientInfo;
     @FXML RadioButton selectedPayment;
 
+
     @FXML
     private void closeButtonAction() {
         Platform.exit();
@@ -44,7 +47,6 @@ public class Controller {
         Amount = new TextField[] {Amount1,Amount2,Amount3};
         Item = new TextField[] {Item1,Item2,Item3};
         Price = new TextField[] {Price1,Price2,Price3};
-
         clientInfo = new TextField[] {nipField,factureNumberField,postalCodeCityField,nameField,streetField};
     }
 
@@ -150,4 +152,31 @@ public class Controller {
         return newArray;
     }
 
+    public void chooserPath() throws IOException {
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        File dirchoose = dirChooser.showDialog(centerGridPane.getScene().getWindow());
+
+
+        try {
+            System.out.println(dirchoose.getPath());
+            changeProperties(dirchoose);
+        }
+        catch(NullPointerException e)
+        {Dialogs.userInfo("Nie wybrano nowego katalogu zapisu", Alert.AlertType.WARNING);
+        }
+
+    }
+
+    private void changeProperties(File dirchoose) throws IOException {
+
+        Properties defaultProperties = new Properties();
+        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
+        defaultProperties.load(in);
+        in.close();
+
+        FileOutputStream out = new FileOutputStream("src/defaultProperties.properties");
+        defaultProperties.setProperty("url", dirchoose.getPath());
+        defaultProperties.store(out,"");
+        out.close();
+    }
 }
