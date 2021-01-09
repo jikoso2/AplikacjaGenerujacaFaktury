@@ -15,6 +15,7 @@ public class Main extends Application {
         Image image = new Image(getClass().getResourceAsStream("Pictures/Icon.png"));
         primaryStage.getIcons().add(image);
         primaryStage.setTitle("Generator faktur");
+
         primaryStage.setScene(new Scene(root, 880, 500));
         primaryStage.show();
     }

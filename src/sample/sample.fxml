@@ -5,35 +5,40 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.TextField?>
-
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ToggleGroup?>
-
 <?import javafx.scene.control.ScrollPane?>
+
 
 <BorderPane fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" stylesheets="@styles.css">
 
     <bottom>
-        <HBox  spacing="10" alignment="BOTTOM_RIGHT">
-            <padding>
-                <Insets bottom="20" right="20"/>
-            </padding>
+        <GridPane vgap="6" hgap="10"  alignment="CENTER_RIGHT" prefWidth="Infinity" >
+            <HBox  alignment="CENTER_RIGHT" GridPane.columnIndex="15" GridPane.rowIndex="1" spacing="10">
 
-            <Button text="Wybierz Katalog"  prefWidth="120" prefHeight="20"
-                    onAction="#chooserPath" />
+                <padding>
+                    <Insets bottom="20" right="20" left="20" />
+                </padding>
 
-            <Button text="+" GridPane.columnIndex="1" prefWidth="25" prefHeight="20"
-                    onAction="#addItem"/>
-            <Button text="TestValue" GridPane.columnIndex="2" prefWidth="120" prefHeight="20"
-                    onAction="#testValue"/>
-            <Button text="Wyczyść" GridPane.columnIndex="3" prefWidth="120" prefHeight="20"
-                    onAction="#isClear"/>
-            <Button text="Generuj fakture" GridPane.columnIndex="4" prefWidth="120" prefHeight="20"
-                    onAction="#onGenerateClicked"/>
-            <Button text="Wyjdź" GridPane.columnIndex="5" prefWidth="120" prefHeight="20"
-                    onAction="#closeButtonAction"/>
 
-        </HBox>
+                <Button text="+"  minWidth="25" prefHeight="20"
+                        onAction="#addItem"/>
+                <Button text="Wybierz Katalog"  prefWidth="120" prefHeight="20"
+                        onAction="#chooserPath" />
+                <Button text="Wyczyść"  prefWidth="120" prefHeight="20"
+                        onAction="#isClear"/>
+                <Button text="Generuj fakture" prefWidth="120" prefHeight="20"
+                        onAction="#onGenerateClicked"/>
+                <Button text="Wyjdź"  prefWidth="120" prefHeight="20"
+                        onAction="#closeButtonAction"/>
+
+            </HBox>
+            <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="6">
+                <Button text="Zapis w: "  prefWidth="70" prefHeight="20"/>
+                <TextField fx:id="informationFolderField"  alignment="CENTER" disable="true" maxWidth="90" maxHeight="20"/>
+            </HBox>
+
+        </GridPane>
     </bottom>
 
 
@@ -94,6 +99,10 @@
             <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="2" alignment="CENTER" text="Gotówka" toggleGroup="$paymentType"/>
             <RadioButton GridPane.columnIndex="6" GridPane.rowIndex="3" alignment="CENTER" text="Karta/Gotówka" toggleGroup="$paymentType"/>
 
+            <Button text="Test" GridPane.columnIndex="7" GridPane.rowIndex="1" prefWidth="50" prefHeight="20" onAction="#testValue"/>
+            <Label style="-fx-font-size: 11" text="Nr ostatniej" GridPane.columnIndex="7" GridPane.rowIndex="2" alignment="CENTER">
+            </Label>
+            <TextField fx:id="informationNumberField" GridPane.columnIndex="7" GridPane.rowIndex="3" alignment="CENTER" disable="true" maxWidth="50" maxHeight="20"/>
         </GridPane>
     </top>
 

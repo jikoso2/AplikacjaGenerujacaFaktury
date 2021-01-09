@@ -4,10 +4,11 @@
 }
 
 .label{
-    -fx-font-size: 15;
+    -fx-font-size: 14;
     -fx-font-weight: bold;
     -fx-text-fill: black;
 }
+
 
 .text-field{
     -fx-opacity: 0.6;

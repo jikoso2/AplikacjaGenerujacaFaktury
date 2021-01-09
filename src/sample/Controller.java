@@ -17,6 +17,9 @@ public class Controller {
     public GridPane centerGridPane;
     public ScrollPane scrollPane;
 
+    @FXML private TextField informationFolderField;
+    @FXML private TextField informationNumberField;
+
     @FXML private TextField streetField;
     @FXML private TextField nameField;
     @FXML private TextField postalCodeCityField;
@@ -52,13 +55,16 @@ public class Controller {
 
     public void initializeTEST() {
         nipField.setText("6233333233");
-        streetField.setText("Stokrotek");
-        postalCodeCityField.setText("41-400 Katowice");
+        streetField.setText("ul. Testowa");
+        postalCodeCityField.setText("41-400 Testowo");
         factureNumberField.setText("1");
-        nameField.setText("Jarosław Czerniak");
-        Item1.setText("Szybkie buty");
+        nameField.setText("Test");
+        Item1.setText("Szybkie buty r8");
         Price1.setText("149");
         Amount1.setText("2");
+        Item2.setText("Wolne buty r 9.5");
+        Price2.setText("259");
+        Amount2.setText("1");
     }
 
 
@@ -75,7 +81,13 @@ public class Controller {
             PdfTableRow[] Rows = ischeckRows();
             PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isPersonalSelected);
             generator.finalGenerator();
-            Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
+            propertyActualization(factureNumberField.getText());
+
+            Properties defaultProperties = new Properties();
+            FileInputStream in = new FileInputStream("src/defaultProperties.properties");
+            defaultProperties.load(in);
+            informationNumberField.setText(defaultProperties.getProperty("lastFacture"));
+            //Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
         }
     }
 
@@ -102,6 +114,8 @@ public class Controller {
 
     public void testValue() {
         initializeTEST();
+        informationFolderField.setText("Styczeń");
+        informationNumberField.setText("2");
     }
 
     public void isClear() {
@@ -158,7 +172,7 @@ public class Controller {
 
 
         try {
-            System.out.println(dirchoose.getPath());
+            dirchoose.getPath();
             changeProperties(dirchoose);
         }
         catch(NullPointerException e)
@@ -176,6 +190,20 @@ public class Controller {
 
         FileOutputStream out = new FileOutputStream("src/defaultProperties.properties");
         defaultProperties.setProperty("url", dirchoose.getPath());
+        defaultProperties.setProperty("lastFacture", defaultProperties.getProperty("lastFacture"));
+        defaultProperties.store(out,"");
+        out.close();
+    }
+
+    private void propertyActualization(String newNumber) throws IOException {
+        Properties defaultProperties = new Properties();
+        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
+        defaultProperties.load(in);
+        in.close();
+
+        FileOutputStream out = new FileOutputStream("src/defaultProperties.properties");
+        defaultProperties.setProperty("url", defaultProperties.getProperty("url"));
+        defaultProperties.setProperty("lastFacture", newNumber);
         defaultProperties.store(out,"");
         out.close();
     }
