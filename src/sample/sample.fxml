@@ -34,8 +34,10 @@
 
             </HBox>
             <HBox GridPane.columnIndex="1" GridPane.rowIndex="1" spacing="6">
-                <Button text="Zapis w: "  prefWidth="70" prefHeight="20"/>
+
+                <Label text="Zapis w: "  prefWidth="70" prefHeight="20"/>
                 <TextField fx:id="informationFolderField"  alignment="CENTER" disable="true" maxWidth="90" maxHeight="20"/>
+
             </HBox>
 
         </GridPane>

@@ -10,6 +10,8 @@ import utils.ControllerUtils;
 import utils.Dialogs;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 public class Controller {
@@ -45,15 +47,17 @@ public class Controller {
     @FXML ToggleGroup paymentType;
     @FXML public RadioButton personalFVAT;
     private int count = 3;
+    @FXML
 
-    public void initialize() {
+    public void initialize() throws IOException {
+        infoActualization();
         Amount = new TextField[] {Amount1,Amount2,Amount3};
         Item = new TextField[] {Item1,Item2,Item3};
         Price = new TextField[] {Price1,Price2,Price3};
         clientInfo = new TextField[] {nipField,factureNumberField,postalCodeCityField,nameField,streetField};
     }
 
-    public void initializeTEST() {
+    public void initializeValues() throws IOException {
         nipField.setText("6233333233");
         streetField.setText("ul. Testowa");
         postalCodeCityField.setText("41-400 Testowo");
@@ -65,6 +69,7 @@ public class Controller {
         Item2.setText("Wolne buty r 9.5");
         Price2.setText("259");
         Amount2.setText("1");
+        infoActualization();
     }
 
 
@@ -77,18 +82,23 @@ public class Controller {
         boolean checker = ControllerUtils.fieldChecker(clientInfo,isPersonalSelected);
         boolean checker1 =  ControllerUtils.checkItems(Amount,Price);
 
+
         if (checker && checker1) {
             PdfTableRow[] Rows = ischeckRows();
             PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isPersonalSelected);
             generator.finalGenerator();
             propertyActualization(factureNumberField.getText());
-
-            Properties defaultProperties = new Properties();
-            FileInputStream in = new FileInputStream("src/defaultProperties.properties");
-            defaultProperties.load(in);
-            informationNumberField.setText(defaultProperties.getProperty("lastFacture"));
-            //Dialogs.userInfo("Udało się pomyślnie wygenerować fakture", Alert.AlertType.INFORMATION);
+            infoActualization();
         }
+    }
+
+    private void infoActualization() throws IOException {
+        Properties defaultProperties = defaultProperties();
+
+        informationNumberField.setText(defaultProperties.getProperty("lastFacture"));
+        Path path = Paths.get(defaultProperties.getProperty("url"));
+        informationFolderField.setText(path.getFileName().toString());
+
     }
 
 
@@ -112,10 +122,8 @@ public class Controller {
             return new PdfTableRow(null,"0","0",16);
     }
 
-    public void testValue() {
-        initializeTEST();
-        informationFolderField.setText("Styczeń");
-        informationNumberField.setText("2");
+    public void testValue() throws IOException {
+        initializeValues();
     }
 
     public void isClear() {
@@ -129,7 +137,7 @@ public class Controller {
         }
     }
 
-    public void addItem() {
+    public void addItem() throws IOException {
 
         if (count <= 16) {
 
@@ -174,6 +182,7 @@ public class Controller {
         try {
             dirchoose.getPath();
             changeProperties(dirchoose);
+            infoActualization();
         }
         catch(NullPointerException e)
         {Dialogs.userInfo("Nie wybrano nowego katalogu zapisu", Alert.AlertType.WARNING);
@@ -183,10 +192,7 @@ public class Controller {
 
     private void changeProperties(File dirchoose) throws IOException {
 
-        Properties defaultProperties = new Properties();
-        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
-        defaultProperties.load(in);
-        in.close();
+        Properties defaultProperties = defaultProperties();
 
         FileOutputStream out = new FileOutputStream("src/defaultProperties.properties");
         defaultProperties.setProperty("url", dirchoose.getPath());
@@ -196,15 +202,20 @@ public class Controller {
     }
 
     private void propertyActualization(String newNumber) throws IOException {
-        Properties defaultProperties = new Properties();
-        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
-        defaultProperties.load(in);
-        in.close();
+        Properties defaultProperties = defaultProperties();
 
         FileOutputStream out = new FileOutputStream("src/defaultProperties.properties");
         defaultProperties.setProperty("url", defaultProperties.getProperty("url"));
         defaultProperties.setProperty("lastFacture", newNumber);
         defaultProperties.store(out,"");
         out.close();
+    }
+
+    private Properties defaultProperties() throws IOException {
+        Properties defaultProperties = new Properties();
+        FileInputStream in = new FileInputStream("src/defaultProperties.properties");
+        defaultProperties.load(in);
+        in.close();
+        return defaultProperties;
     }
 }

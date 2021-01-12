@@ -28,6 +28,14 @@ public class ControllerUtils {
                 coloringNeutral(clientInfo[0]);
         }
 
+        try {
+            Integer.parseInt(clientInfo[1].getText());
+        }catch(NumberFormatException e){
+            coloring(clientInfo[1]);
+            Dialogs.userInfo("Wpisz prawidłowy numer faktury", Alert.AlertType.WARNING);
+            return false;
+        }
+
         if (checker(clientInfo[0]) && (clientInfo[0].getLength() == 10 || isPersonal) && checker(clientInfo[1]) && checker(clientInfo[2]) && checker(clientInfo[3]) && checker(clientInfo[4]))
             return true;
         else {
@@ -45,11 +53,11 @@ public class ControllerUtils {
 
     private static void coloring(TextField Field){
         if(Field.getText().equals("")) {
-            Field.setStyle("-fx-control-inner-background: #" + colorRed.toString().substring(2));
+            Field.setStyle("-fx-background-color: #" + colorRed.toString().substring(2));
         }
     }
     private static void coloringNeutral(TextField Field){
-        Field.setStyle("-fx-control-inner-background: #" + colorTransparent.toString().substring(2));
+        Field.setStyle("-fx-background-color: #" + colorTransparent.toString().substring(2));
     }
 
     public static PaymentType payment(RadioButton selectedPayment){
