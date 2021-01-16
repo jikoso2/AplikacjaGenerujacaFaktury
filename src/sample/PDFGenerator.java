@@ -4,6 +4,8 @@ import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.pdf.*;
+import utils.PdfCreateUtils;
+
 import java.awt.Desktop;
 
 import java.io.*;
@@ -13,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import static java.lang.String.valueOf;
 
 public class PDFGenerator {
     private final int factureNumber;
@@ -46,7 +47,6 @@ public class PDFGenerator {
 
                 String finalPath;
                 try {
-                    //PdfWriter.getInstance(doc, new FileOutputStream(savePath.getPath() + "/" + fileName()));
                     System.out.println();
                     PdfWriter.getInstance(doc, new FileOutputStream(defaultProperties.getProperty("url") + "/" + fileName()));
                     finalPath = defaultProperties.getProperty("url") + "/" + fileName();
@@ -107,19 +107,25 @@ public class PDFGenerator {
         addSummaryP2(document);
     }
     private void addSummaryP1(Document document) throws DocumentException, IOException {
-        double[] sumPrices = sumPrices(Rows);
-        double sumFinalPrice = sumPrices[2];
+        float[] sumPrices = sumPrices(Rows);
+        float finalPrice = sumPrices[2];
 
         Paragraph firstText = new Paragraph("Do zapłaty",setFont(true));
-        Paragraph secondText = new Paragraph(valueOf(roundValues((float) (sumFinalPrice)))+"zł",setFont(false));
+        Paragraph secondText = new Paragraph(PdfCreateUtils.Value(finalPrice),setFont(false));
+
         document.add(alignmentText(firstText, secondText));
     }
     private void addSummaryP2(Document document) throws DocumentException, IOException {
-        double[] sumPrices = sumPrices(Rows);
-        double sumFinalPrice = sumPrices[2];
+        float[] sumPrices = sumPrices(Rows);
+        float finalPrice = sumPrices[2];
 
         Paragraph firstText = new Paragraph("Słownie złotych:",setFont(true));
-        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (sumFinalPrice))+"złotych",setFont(false));
+        Paragraph secondText = new Paragraph(NumberTranslation.translacja((int) (finalPrice))+"złotych",setFont(false));
+
+        int trollo = (int) finalPrice;
+        if ( finalPrice - trollo > 0)
+            secondText = new Paragraph(NumberTranslation.translacja((int) (finalPrice))+"złotych" +" i "+ NumberTranslation.translacja((int) (finalPrice*100-trollo*100))+ "groszy",setFont(false));
+
         document.add(alignmentText(firstText, secondText));
     }
 
@@ -160,45 +166,38 @@ public class PDFGenerator {
         document.add(table);
     }
 
-    private String roundValues(float value){
-        DecimalFormat myFormatter = new DecimalFormat("###.00");
-        return myFormatter.format(value);
-    }
 
-    private double[] sumPrices(PdfTableRow[] Rows){
-        double sumNetto = 0;
+    private float[] sumPrices(PdfTableRow[] Rows){
+        float sumNetto = 0;
         for (PdfTableRow row : Rows) {
             sumNetto += row.getNetto();
         }
-        double sumTax = 0;
+        float sumTax = 0;
         for (PdfTableRow row : Rows) {
             sumTax += row.getTax();
         }
-        double sumFinalPrice = 0;
+        float sumFinalPrice = 0;
         for (PdfTableRow row : Rows) {
             sumFinalPrice += row.getFinalPrice();
         }
-        return new double[] {sumNetto,sumTax,sumFinalPrice};
+        return new float[] {sumNetto,sumTax,sumFinalPrice};
     }
 
     private void addLastTableRow(PdfPTable table) throws DocumentException, IOException {
 
-        double[] sumPrices = sumPrices(Rows);
-        double sumNetto = sumPrices[0];
-        double sumTax = sumPrices[1];
-        double sumFinalPrice = sumPrices[2];
+        float[] sumPrices = sumPrices(Rows);
+        float netto = sumPrices[0];
+        float tax = sumPrices[1];
+        float finalPrice = sumPrices[2];
 
-        String netto = valueOf(roundValues((float) sumNetto));
-        String tax = valueOf(roundValues((float) sumTax));
-        String finalPrice = valueOf(roundValues((float) sumFinalPrice));
 
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
         createCellToLastRow(table, " ");
-        createCellToLastRow(table, netto +" zł");
-        createCellToLastRow(table, tax + " zł");
+        createCellToLastRow(table, PdfCreateUtils.Value(netto));
+        createCellToLastRow(table, PdfCreateUtils.Value(tax));
         createCellToLastRow(table, " ");
-        createCellToLastRow(table, finalPrice + " zł");
+        createCellToLastRow(table, PdfCreateUtils.Value(finalPrice));
 
     }
 

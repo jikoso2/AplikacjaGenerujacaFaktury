@@ -33,7 +33,7 @@ public class NumberTranslation {
 
 // ZERO
         if (liczba == 0) {
-            znak = "zero";
+            znak = "zero ";
         }
 
 // PĘTLA GŁÓWNA

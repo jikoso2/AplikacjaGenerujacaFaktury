@@ -77,8 +77,8 @@ public class ControllerUtils {
         try {
             for (int i = 0; i < amount.length; i++) {
                 if(amount[i].getText().length() != 0 && price[i].getText().length() != 0) {
-                    Integer.parseInt(amount[i].getText());
-                    Integer.parseInt(price[i].getText());
+                    Float.parseFloat(amount[i].getText());
+                    Float.parseFloat(price[i].getText());
                 }
             }
             return true;
