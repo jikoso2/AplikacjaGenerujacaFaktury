@@ -90,7 +90,7 @@ In addition, we have the option of entering test data and the user receives info
 Here, we enter the information about items: name,amount,price per unit.
 We can write maximum 16 items and minimum 1 item.
 
-![Example suwak](./img_README/GUI_2.png)
+![Example suwak](./img_README/GUI_2.PNG)
 #### 3. Bottom
 At the bottom we see information about last folder to save path.
 #####Buttons:
@@ -105,7 +105,7 @@ At the bottom we see information about last folder to save path.
 ### Dialogs
 ##### Empty important information
 ![Example Dialog1](./img_README/Dialog_1.png)
-![Example Dialog1_red](./img_README/Dialog_1_red.png)
+![Example Dialog1_red](./img_README/Dialog_1_red.PNG)
 ##### Wrong amount/price (no float)
 ![Example Dialog2](./img_README/Dialog_2.png)
 ##### Wrong facture number (no int)
@@ -113,7 +113,7 @@ At the bottom we see information about last folder to save path.
 ##### Don't set new save path
 ![Example Dialog4](./img_README/Dialog_4.png)
 ##### Wrong NIP number (too many/too few numbers)
-![Example Dialog5](./img_README/Dialog_5.png)
+![Example Dialog5](./img_README/Dialog_5.PNG)
 ## Inspiration
 
 The application was written while I was working in a sports store. I had to create invoices in an ineffective way.
