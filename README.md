@@ -19,7 +19,7 @@ By making small changes, I can easily adapt the generator to your activity.
 
 ## Technologies
 * Java - version 11.0.8
-* iText - version 7.1.3
+* iText - version 5.1.2
 * JavaFX - version 11.0.2
 
 
