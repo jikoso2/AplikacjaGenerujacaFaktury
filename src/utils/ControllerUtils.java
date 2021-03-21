@@ -9,8 +9,8 @@ import sample.PaymentType;
 
 public class ControllerUtils {
 
-    static Paint colorRed = Paint.valueOf("#FF0000");
-    static Paint colorTransparent = Paint.valueOf("#FFFFFF");
+    static final Paint COLOR_RED = Paint.valueOf("#FF0000");
+    static final Paint COLOR_TRANSPARENT = Paint.valueOf("#FFFFFF");
 
 
     public static void coloringNeutralChecked(TextField[] clientInfo) {
@@ -53,11 +53,11 @@ public class ControllerUtils {
 
     private static void coloring(TextField Field){
         if(Field.getText().equals("")) {
-            Field.setStyle("-fx-background-color: #" + colorRed.toString().substring(2));
+            Field.setStyle("-fx-background-color: #" + COLOR_RED.toString().substring(2));
         }
     }
     private static void coloringNeutral(TextField Field){
-        Field.setStyle("-fx-background-color: #" + colorTransparent.toString().substring(2));
+        Field.setStyle("-fx-background-color: #" + COLOR_TRANSPARENT.toString().substring(2));
     }
 
     public static PaymentType payment(RadioButton selectedPayment){

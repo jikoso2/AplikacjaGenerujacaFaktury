@@ -36,18 +36,16 @@ public class Controller {
     @FXML private TextField[] Item;
     @FXML private TextField[] Price;
     @FXML private TextField[] clientInfo;
-    @FXML RadioButton selectedPayment;
 
-
-    @FXML
-    private void closeButtonAction() {
+    @FXML private RadioButton selectedPayment;
+    @FXML private ToggleGroup paymentType;
+    @FXML private RadioButton personalFVAT;
+    @FXML private void closeButtonAction() {
         Platform.exit();
     }
 
-    @FXML ToggleGroup paymentType;
-    @FXML public RadioButton personalFVAT;
-    private int count = 3;
-    @FXML
+    private int itemsCounter = 3;
+    int MAX_AMOUNT_ITEMS = 16;
 
     public void initialize() throws IOException {
         infoActualization();
@@ -57,7 +55,7 @@ public class Controller {
         clientInfo = new TextField[] {nipField,factureNumberField,postalCodeCityField,nameField,streetField};
     }
 
-    public void initializeValues() throws IOException {
+    public void declareTestValues() throws IOException {
         nipField.setText("6233333233");
         streetField.setText("ul. Testowa");
         postalCodeCityField.setText("41-400 Testowo");
@@ -73,19 +71,18 @@ public class Controller {
     }
 
 
-
     public void onGenerateClicked() throws IOException, DocumentException {
         ControllerUtils.coloringNeutralChecked(clientInfo);
-        boolean isPersonalSelected = personalFVAT.isSelected();
+        boolean isPersonalInvoiceSelected = personalFVAT.isSelected();
         selectedPayment = (RadioButton) paymentType.getSelectedToggle();
 
-        boolean checker = ControllerUtils.fieldChecker(clientInfo,isPersonalSelected);
-        boolean checker1 =  ControllerUtils.checkItems(Amount,Price);
+        boolean isClientInformationCorrect = ControllerUtils.fieldChecker(clientInfo,isPersonalInvoiceSelected);
+        boolean isItemsFieldCorrect =  ControllerUtils.checkItems(Amount,Price);
 
 
-        if (checker && checker1) {
-            PdfTableRow[] Rows = ischeckRows();
-            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isPersonalSelected);
+        if (isClientInformationCorrect && isItemsFieldCorrect) {
+            PdfTableRow[] Rows = rowsValidate();
+            PDFGenerator generator = new PDFGenerator(Integer.parseInt(factureNumberField.getText()), nameField.getText(), streetField.getText(), postalCodeCityField.getText(), ControllerUtils.payment(selectedPayment), nipField.getText(), Rows, isPersonalInvoiceSelected);
             generator.finalGenerator();
             propertyActualization(factureNumberField.getText());
             infoActualization();
@@ -102,19 +99,19 @@ public class Controller {
     }
 
 
-    private PdfTableRow[] ischeckRows() {
-        PdfTableRow[] Rows = new PdfTableRow[count];
-        int num=1;
+    private PdfTableRow[] rowsValidate() {
+        PdfTableRow[] Rows = new PdfTableRow[itemsCounter];
+        int GoodRowsCounter = 1;
         for (int i = 0; i < Rows.length; i++) {
-            Rows[i]  = checkRows(Item[i], Amount[i], Price[i],num);
+            Rows[i]  = rowsChecker(Item[i], Amount[i], Price[i],GoodRowsCounter);
             if (Rows[i].isGoodItem())
-                num++;
+                GoodRowsCounter++;
         }
         return Rows;
     }
 
 
-    private PdfTableRow checkRows(TextField item, TextField amount, TextField price, int number){
+    private PdfTableRow rowsChecker(TextField item, TextField amount, TextField price, int number){
         if(item.getText().length() != 0 && amount.getText().length() != 0 && price.getText().length() != 0) {
             return new PdfTableRow(item.getText(), amount.getText(), price.getText(),number);
         }
@@ -123,7 +120,7 @@ public class Controller {
     }
 
     public void testValue() throws IOException {
-        initializeValues();
+        declareTestValues();
     }
 
     public void isClear() {
@@ -138,10 +135,9 @@ public class Controller {
     }
 
     public void addItem() throws IOException {
+        if (itemsCounter <= MAX_AMOUNT_ITEMS) {
 
-        if (count <= 16) {
-
-            if (count == 3)
+            if (itemsCounter == 3)
             initialize();
 
 
@@ -152,15 +148,15 @@ public class Controller {
             TextField newPrice = new TextField();
             newPrice.setPrefWidth(90);
 
-            Amount = add_element(Amount, new TextField(), count);
-            Item = add_element(Item, new TextField(), count);
-            Price = add_element(Price, new TextField(), count);
+            Amount = add_element(Amount, new TextField(), itemsCounter);
+            Item = add_element(Item, new TextField(), itemsCounter);
+            Price = add_element(Price, new TextField(), itemsCounter);
 
 
-            centerGridPane.add(Item[count], 1, count + 2);
-            centerGridPane.add(Amount[count], 2, count + 2);
-            centerGridPane.add(Price[count], 3, count + 2);
-            count++;
+            centerGridPane.add(Item[itemsCounter], 1, itemsCounter + 2);
+            centerGridPane.add(Amount[itemsCounter], 2, itemsCounter + 2);
+            centerGridPane.add(Price[itemsCounter], 3, itemsCounter + 2);
+            itemsCounter++;
         }
 
     }
